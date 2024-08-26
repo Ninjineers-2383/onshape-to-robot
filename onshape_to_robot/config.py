@@ -150,3 +150,5 @@ if config['simplifySTLs']:
 # Checking that versionId and workspaceId are not set on same time
 if config['versionId'] != '' and config['workspaceId'] != '':
     print(Style.RED + "You can't specify workspaceId AND versionId")
+
+config['linkRemaps'] = configGet('linkRemaps', {})

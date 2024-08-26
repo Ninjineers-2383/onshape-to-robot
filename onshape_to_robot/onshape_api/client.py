@@ -342,6 +342,12 @@ class Client():
 
         return self.cache_get('part_stl', (did, mid, eid, self.hash_partid(partid), configuration), invoke)
 
+    def part_studio_stl_no_cache(self, did, mid, eid, partid, configuration='default'):
+        req_headers = {
+                'Accept': '*/*'
+            }
+        return self._api.request('get', '/api/parts/d/' + did + '/m/' + mid + '/e/' + eid + '/partid/'+escape_url(partid)+'/stl', query={'mode': 'binary', 'units': 'meter', 'configuration': configuration}, headers=req_headers)
+
     def part_get_metadata(self, did, mid, eid, partid, configuration = 'default'):
         def invoke():
             return self._api.request('get', '/api/metadata/d/' + did + '/m/' + mid + '/e/' + eid + '/p/'+escape_url(partid), query={'configuration': configuration})

@@ -4,23 +4,28 @@ import math
 import subprocess
 import stl
 import os
+from stl.mesh import Mesh
 from stl import mesh
 from colorama import Fore, Back, Style
 
 
-def load_mesh(stl_file):
-    return mesh.Mesh.from_file(stl_file)
+def load_mesh(stl_file) -> Mesh:
+    return Mesh.from_file(stl_file)
 
 
-def save_mesh(mesh, stl_file):
+def save_mesh(mesh: Mesh, stl_file: str):
     mesh.save(stl_file, mode=stl.Mode.BINARY)
 
 
-def combine_meshes(m1, m2):
-    return mesh.Mesh(np.concatenate([m1.data, m2.data]))
+def combine_meshes(m1 : Mesh | None, m2 : Mesh | None) -> Mesh:
+    if m1 is None:
+        return m2
+    if m2 is None:
+        return m1
+    return Mesh(np.concatenate([m1.data, m2.data]))
 
 
-def apply_matrix(mesh, matrix):
+def apply_matrix(mesh: Mesh, matrix : np.matrix):
     rotation = matrix[0:3, 0:3]
     translation = matrix[0:3, 3:4].T.tolist()
 
